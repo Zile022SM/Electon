@@ -13,6 +13,7 @@ import { Provider } from 'react-redux';
 
 //store
 import store from './store/store.js';
+import ProductDetails from './pages/ProductDetails.jsx';
 
 // Import your publishable key
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
       {
         path:'/',
         element:<HomePage />
+      },
+      {
+        path:'productDetails/:id',
+        element:<ProductDetails />
       }
     ],
     errorElement:<h1>Nije pronadjena strana</h1>
