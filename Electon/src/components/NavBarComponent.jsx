@@ -7,8 +7,13 @@ import { FaRegHeart } from "react-icons/fa";
 import { BsCart4 } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import NavBarCategoriesComponent from "./NavBarCategoriesComponent";
+import { useDispatch, useSelector } from 'react-redux';
+import { saveInCartHandler } from "../store/cartSlice";
 
 function NavBarComponent() {
+
+  const {cart} = useSelector((state)=>state.cartStore);
+  
   return (
     <>
     
@@ -52,7 +57,6 @@ function NavBarComponent() {
             <BsCart4 color="orange" />
             <Link to={"/"}>Cart</Link>
             <span className="h-[20px] w-[20px] bg-[orange] flex justify-center items-center rounded-full text-black">
-              0
             </span>
           </div>
         </div>

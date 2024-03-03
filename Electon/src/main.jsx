@@ -7,19 +7,20 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 //pages
 import HomePage from './pages/HomePage.jsx';
 import AppLayout from './AppLayout.jsx';
-import { ClerkProvider } from '@clerk/clerk-react'
+import { ClerkProvider,SignOutButton, SignInButton, SignedIn, SignedOut, UserButton } from '@clerk/clerk-react';
 import { Provider } from 'react-redux';
 
 
 //store
 import store from './store/store.js';
 import ProductDetails from './pages/ProductDetails.jsx';
+import ProductCartPage from './pages/ProductCartPage.jsx';
 
 // Import your publishable key
-const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
- 
+const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
+
 if (!PUBLISHABLE_KEY) {
-  throw new Error("Missing Publishable Key")
+  throw new Error("Missing Publishable Key");
 }
 
 
@@ -30,11 +31,18 @@ const router = createBrowserRouter([
     children:[
       {
         path:'/',
-        element:<HomePage />
+        element: <HomePage />
       },
       {
         path:'productDetails/:id',
-        element:<ProductDetails />
+        element:
+          <SignedIn>
+              <ProductDetails />
+          </SignedIn>   
+      },
+      {
+        path:'/cartProducts',
+        element: <ProductCartPage />
       }
     ],
     errorElement:<h1>Nije pronadjena strana</h1>
