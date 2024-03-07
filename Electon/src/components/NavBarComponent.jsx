@@ -12,30 +12,31 @@ import { saveInCartHandler } from "../store/cartSlice";
 
 function NavBarComponent() {
 
-  const {cart} = useSelector((state)=>state.cartStore);
+  const {totalProducts} = useSelector(state=>state.cartStore);
+
   
   return (
     <>
     
-    <div className="bg-mainBlue lg:h-[100px] sm:py-[20px] flex items-center">
-      <div className="container mx-auto flex justify-between flex-col items-center md:flex-row gap-[15px] mt-[10px]">
-        <img src={logoTip} alt="" />
+    <div className="bg-mainBlue lg:h-[100px] sm:py-[20px] flex items-center justify-between lg:justify-between lg:flex-row">
+      <div className="container mx-auto flex flex-col justify-between items-center md:flex-row gap-[15px] mt-[10px] md:flex-row md:justify-evenly lg:flex-row lg:justify-between">
+        <Link to={'/'}><img src={logoTip} alt="" /></Link>
 
         {/* TODO: search component */}
-        <div className="flex">
+        <div className="flex gap-2 items-center">
           <input
             type="text"
-            placeholder="Search product"
-            className="rounded-[20px] pl-[10px] border-none h-[40px]"
+            placeholder="Search product   🔎"
+            className="rounded-[20px] pl-[10px] focus:outline-none focus:border-none h-[35px] lg:w-[350px]"
           />
-          <button className="rounded-[20px] bg-[orange] px-5 mx-[-40px]">
+          <button className="rounded-[20px] bg-[orange] px-5 mx-[-40px] h-[35px]">
             Search
           </button>
         </div>
 
         {/* General info */}
-        <div className="flex gap-2 items-center text-white mb-[10px]">
-          <div className="flex gap-2">
+        <div className="flex gap-2 items-center text-white mb-[10px] lg:mr-[50px] lg:justify-end">
+          <div className="flex gap-2 items-center">
             <FaRegUser color="orange" />
             <SignedOut>
               <SignInButton />
@@ -45,7 +46,7 @@ function NavBarComponent() {
             </SignedIn>
           </div>
 
-          <div className="flex gap-2 text-white">
+          <div className="flex gap-2 text-white items-center">
             <FaRegHeart color="orange" />
             <Link to={"/"}>Favorite</Link>
             <span className="h-[20px] w-[20px] bg-[orange] flex justify-center items-center rounded-full text-black">
@@ -53,16 +54,15 @@ function NavBarComponent() {
             </span>
           </div>
 
-          <div className="flex gap-2 text-white">
+          <div className="flex gap-2 text-white items-center">
             <BsCart4 color="orange" />
-            <Link to={"/"}>Cart</Link>
+            <Link to={"/cartProducts"}>Cart</Link>
             <span className="h-[20px] w-[20px] bg-[orange] flex justify-center items-center rounded-full text-black">
+              {totalProducts}
             </span>
           </div>
         </div>
-        <div className="navCategories h-[]">
-
-        </div>
+      
       </div>
     </div>
    

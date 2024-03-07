@@ -11,7 +11,9 @@ export default {
         'mainOrange':'#EDA415',
         'headingColor':'#185A7D',
         'textColor':'#3A3A3A',
-        'textWhite':'#fff'
+        'textWhite':'#fff',
+        'textOrange':'#EDA415',
+
       }
     },
   },

@@ -91,9 +91,9 @@ function ProductDetails() {
                     </p>
                     <div className="flex gap-3">
                        <Link to={'/cartProducts'} onClick={()=>handleProduct()}>
-                         <ButtonComponent title={'Add to Cart'} color={'mainOrange'} text={'white'} />
+                         <ButtonComponent title={'Add to Cart'} color={'mainBlue'} text={'white'} />
                        </Link>
-                        <ButtonComponent title={'Buy It now'} color={'mainOrange'} text={'white'}/>
+                        <ButtonComponent title={'Buy It now'} color={'mainBlue'} text={'white'}/>
                     </div>
                 </div>
             
