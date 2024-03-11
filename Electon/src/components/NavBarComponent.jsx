@@ -18,8 +18,8 @@ function NavBarComponent() {
   return (
     <>
     
-    <div className="bg-mainBlue lg:h-[100px] sm:py-[20px] flex items-center justify-between lg:justify-between lg:flex-row">
-      <div className="container mx-auto flex flex-col justify-between items-center md:flex-row gap-[15px] mt-[10px] md:flex-row md:justify-evenly lg:flex-row lg:justify-between">
+    <div className="bg-mainBlue lg:h-[100px] sm:py-[20px] flex items-center justify-between lg:justify-between lg:flex-row py-2">
+      <div className="container mx-auto flex flex-col justify-between items-center md:flex-row gap-[15px] md:flex-row md:justify-evenly lg:flex-row lg:justify-between">
         <Link to={'/'}><img src={logoTip} alt="" /></Link>
 
         {/* TODO: search component */}
@@ -35,7 +35,7 @@ function NavBarComponent() {
         </div>
 
         {/* General info */}
-        <div className="flex gap-2 items-center text-white mb-[10px] lg:mr-[50px] lg:justify-end">
+        <div className="flex gap-2 items-center text-white lg:mr-[50px] lg:justify-end">
           <div className="flex gap-2 items-center">
             <FaRegUser color="orange" />
             <SignedOut>

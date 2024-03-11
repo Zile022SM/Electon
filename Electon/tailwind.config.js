@@ -13,6 +13,8 @@ export default {
         'textColor':'#3A3A3A',
         'textWhite':'#fff',
         'textOrange':'#EDA415',
+        'Gray':'#DCDCDC',
+        'okvir':'#A9A9A9'
 
       }
     },

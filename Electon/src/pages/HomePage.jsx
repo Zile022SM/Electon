@@ -7,6 +7,7 @@ import { FaList } from "react-icons/fa";
 import { FiGrid } from "react-icons/fi";
 
 function HomePage() {
+
   const [activeView, setActiveView] = useState("gridView");
 
   const dispatch = useDispatch();
@@ -20,7 +21,7 @@ function HomePage() {
 
   return (
     <div className="container mx-auto">
-      <div className="mt-2 flex gap-2 mr-5 mt-4 ittems-center justify-end">
+      <div className="mt-2 flex gap-2 mr-5 mt-4 items-center justify-end">
         <FaList
           size="24px"
           color="#003F62"
@@ -41,9 +42,9 @@ function HomePage() {
         />
       </div>
       {/* Our products/ card */}
-      <div className="flex flex-wrap gap-8 items-center justify-center my-8">
+      <div className={activeView==='gridView'?"grid grid-cols-3 gap-3 my-8":" flex flex-col flex-wrap w-full items-center justify-center"}>
         {allProducts.map((item, index) => {
-          return <ProductCardComponent key={index} item={item} />;
+          return <ProductCardComponent key={index} item={item} index={index} activeView={activeView}/>;
         })}
       </div>
     </div>

@@ -6,6 +6,7 @@ const cartSlice = createSlice({
         cart:[],
         totalProducts:0,
         totalPrice:0,
+        currentIndex:0
     },
     reducers:{
         saveInCartHandler:(state,action)=>{
@@ -72,12 +73,17 @@ const cartSlice = createSlice({
             const index = action.payload;
             let copyArray = [...state.cart];
             state.totalPrice -= copyArray[index].subTotal;
+            copyArray[index].subTotal = 0;
+            copyArray[index].count = 0;
             state.totalProducts -= 1;
             copyArray.splice(index,1);
             state.cart = copyArray;
         },
+        currentIndexHendler:(state,action)=>{
+            state.currentIndex = action.payload;
+        }
     }
 });
 
-export const {saveInCartHandler,setPriceIncrementHendler,setPriceDecrementHendler,removeProductHendler} = cartSlice.actions;
+export const {saveInCartHandler,setPriceIncrementHendler,setPriceDecrementHendler,removeProductHendler,currentIndexHendler} = cartSlice.actions;
 export default cartSlice.reducer;
