@@ -2,6 +2,7 @@
 import { useDispatch } from "react-redux";
 import {
   currentIndexHendler,
+  setCurrentProductHendler,
   removeProductHendler,
   setPriceIncrementHendler,
 } from "../store/cartSlice";
@@ -15,7 +16,11 @@ function CartItemsComponent({ item, index }) {
   return (
     <div className="grid grid-cols-6 place-items-center text-center">
       <div className="flex gap-[10px] items-center flex-col lg:flex-row py-4">
-        <Link to={`/productDetails/${item.id}`} onClick={() => dispatch(currentIndexHendler(index))}>
+        <Link to={`/productDetails/${item.id}`} onClick={() => {
+            dispatch(setCurrentProductHendler(item))
+            dispatch(currentIndexHendler(index))
+          }}
+        >
           <img
             src={item.thumbnail}
             alt=""
@@ -55,7 +60,7 @@ function CartItemsComponent({ item, index }) {
         <p className="pl-7">{item.subTotal}</p>
       </div>
       <div>
-        <FaTrashCan size="30px"
+        <FaTrashCan size="20px"
           color="red"
           onClick={() => dispatch(removeProductHendler(index))}
           className="cursor-pointer"/>

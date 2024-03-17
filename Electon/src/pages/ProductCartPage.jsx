@@ -30,7 +30,7 @@ function ProductCartPage() {
 
         </div>
         {/* right side */}
-        <div className="w-full lg:w-[30%] border border-slate-400 ">
+        <div className="w-full lg:w-[30%] border border-slate-400">
                 {/* headuing title */}
                 <div className="h-[50px] bg-[#AFEEEE] flex items-center justify-center text-center">
                     Cart Total
@@ -40,7 +40,7 @@ function ProductCartPage() {
                 <div className="flex items-center justify-center my-[15px] px-[10px] border-b border-slate-400 text-center w-[90%] mx-auto">
                     <span className="mb-2">{totalPrice}</span>
                 </div>
-                <div className="my-12 flex flex-col items-center w-[90%] mx-auto border-b border-slate-400 pb-[30px]">
+                <div className="my-12 flex flex-col items-center w-[90%] mx-auto border-b border-slate-400 pb-[30px] mt-[20px]">
                     <p className="my-2"> Take your discount 50%</p>
                     <div className="flex items-center justify-start w-[90%]">
                         <input type="text" className="border border-slate-500 rounded-full  px-[8px] py-[4px] outline-none my-3 w-full" name="discount" placeholder="Apply coupon" id="" />
@@ -48,7 +48,7 @@ function ProductCartPage() {
                     </div>
                 </div>
 
-                <div className="my-5 text-center">
+                <div className="my-1 text-center">
                         <select name="" id="" className="w-[80%] h-[35px] px-[8px] py-[4px] border border-slate-500 rounded-full bg-textWhite mx-auto">
                             <option> -- Select country --</option>
                             {countries.map((el,index)=>{

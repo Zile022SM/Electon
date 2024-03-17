@@ -15,6 +15,7 @@ import { Provider } from 'react-redux';
 import store from './store/store.js';
 import ProductDetails from './pages/ProductDetails.jsx';
 import ProductCartPage from './pages/ProductCartPage.jsx';
+import FavoritesPage from './pages/FavoritesPage.jsx';
 
 // Import your publishable key
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
@@ -43,6 +44,10 @@ const router = createBrowserRouter([
       {
         path:'/cartProducts',
         element: <ProductCartPage />
+      },
+      {
+        path:'/favorites',
+        element: <FavoritesPage />
       }
     ],
     errorElement:<h1>Nije pronadjena strana</h1>

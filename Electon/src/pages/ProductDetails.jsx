@@ -6,24 +6,36 @@ import RatingComponent from "../components/RatingComponent";
 import { FaCheck } from "react-icons/fa6";
 import { ImCross } from "react-icons/im";
 import ButtonComponent from "../components/ButtonComponent";
-import { CgHeart } from "react-icons/cg";
+import { FaRegHeart } from "react-icons/fa6";
+import { IoIosHeart } from "react-icons/io";
 import {
   saveInCartHandler,
   setPriceDecrementHendler,
   setPriceIncrementHendler,
 } from "../store/cartSlice";
+import { setFavoriteProductsHendler } from "../store/favoriteSlice";
+import { motion } from "framer-motion";
 
 function ProductDetails() {
 
   const { id } = useParams();
   const dispatch = useDispatch();
+
+  //cart handler
   const { cart } = useSelector((state) => state.cartStore);
-  const { currentIndex } = useSelector((state) => state.cartStore);
+  //const { currentProduct } = useSelector((state) => state.cartStore);
+
+  //favorite hendler
+  const { favoriteProducts } = useSelector((state) => state.favoriteStore);
+  const {currentIndex} = useSelector((state) => state.cartStore);
   const [currentImage, setCurrentImage] = useState(0);
-  const [foundedProduct, setFoundedProduct] = useState({});
+
+  const [currentFavoriteProduct, setCurrentFavoriteProduct] = useState({});
+  const [currentProduct, setCurrentProduct] = useState({});
+  const [foundedProduct, setFoundedProduct] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const currentId = parseInt(id);
-
+  //console.log(currentId);
 
   useEffect(() => {
     ProductsService.getSingleProduct(currentId)
@@ -34,16 +46,82 @@ function ProductDetails() {
       .catch((err) => console.log(err));
   }, []);
 
+  useEffect(() => {
+   
+    const foundProduct = favoriteProducts.find(item => item.id === currentId);
+
+    if (foundProduct !== undefined) {
+        setCurrentFavoriteProduct(foundProduct);
+  
+    } else {
+        setCurrentFavoriteProduct(null);
+    }
+
+  },[favoriteProducts,currentId]);
+
+  useEffect(() => {
+    const currentProductInCart = cart.find((item) => item.id === currentId);
+   // console.log("Korpa "+currentProductInCart.title);
+
+    if (currentProductInCart !== undefined) {
+        setCurrentProduct(currentProductInCart);
+    }else {
+        setCurrentProduct({});
+    }
+  }, [cart,currentId]);
+
+  const fadeFromLeftSide = {
+    initial:{
+      opacity:0,
+      x:-100,
+    },
+    animate:{
+      opacity:1,
+      x:0,
+      transition:{
+        delay:0.1,
+        duration:1
+        
+      },
+    },
+  }
+
+  const fadeFromRightSide = {
+    initial:{
+      opacity:0,
+      x:100,
+    },
+    animate:{
+      opacity:1,
+      x:0,
+      transition:{
+        delay:0.1,
+        duration:1
+        
+      },
+    },
+  }
+
   function handleProduct() {
     dispatch(saveInCartHandler(foundedProduct));
   }
+
+  function handleFavoriteClick(){
+    dispatch(setFavoriteProductsHendler(foundedProduct));
+  }
+
   return (
     <>
       {isLoading && (
         <>
           <div className="container mx-auto flex flex-col lg:no-wrap flex-wrap grid grid-cols-1 lg:flex-row justify-start lg:grid lg:grid-cols-2 py-[80px]">
             {/* left side images */}
-            <div className="w-full">
+            <motion.div className="w-full"
+              variants={fadeFromLeftSide}
+              initial="initial"
+              whileInView={"animate"}
+              viewport={{ once: true }}
+            >
               <img
                 src={foundedProduct.images[currentImage]}
                 alt=""
@@ -77,10 +155,15 @@ function ProductDetails() {
                   );
                 })}
               </div>
-            </div>
+            </motion.div>
 
             {/* right side images */}
-            <div className="w-full  flex flex-col justify-start mx-12">
+            <motion.div className="w-full  flex flex-col justify-start mx-12"
+                 variants={fadeFromRightSide}
+                 initial="initial"
+                 whileInView={"animate"}
+                 viewport={{ once: true }}
+            >
               <h2 className="text-[30px] text-mainBlue pb-3">
                 {foundedProduct.title}
               </h2>
@@ -112,10 +195,10 @@ function ProductDetails() {
 
               <div className="flex gap-3 py-[70px] flex-col">
                 <p className="text-xl ">Price: ${foundedProduct.price}</p>
-                <p className="text-xl ">Total Price: {cart.length > 0 && Object.keys(cart[currentIndex]).length > 0 && cart[currentIndex].id === foundedProduct.id ?  cart[currentIndex].subTotal : ''}</p>
+                <p className="text-xl ">Total Price: {currentProduct?.subTotal}</p>
                 <div className="flex items-center pb-5">
                   <p className="text-xl mr-4">Cart quantity:</p>
-                  {cart.length > 0 && cart[currentIndex].id === foundedProduct.id ?  
+                  {currentProduct?.id === foundedProduct.id ? (
                     <div className="flex items-center gap-1">
                       <button
                         className="px-[8px] py-[4px] bg-slate-300 w-[30px]"
@@ -126,7 +209,7 @@ function ProductDetails() {
                         -
                       </button>
                       <span className="px-[8px] py-[4px] bg-gray-300 w-[40px] text-center">
-                            {cart.length > 0 && Object.keys(cart[currentIndex]).length > 0 &&  cart[currentIndex].id === foundedProduct.id ? cart[currentIndex].count : ''}
+                            {currentProduct?.count}
                       </span>
                       <button
                         className="px-[8px] py-[4px] bg-slate-300 w-[30px]"
@@ -137,9 +220,10 @@ function ProductDetails() {
                         +
                       </button>
                     </div>
-                   : 
-                    ""
-                  }
+                  ):(
+                    <p className="text-xl"></p>
+                  )}
+                
                 </div>
                 <div className="flex gap-8 items-center border-b border-slate-400 pb-12">
                   <Link to={"/cartProducts"} onClick={() => handleProduct()}>
@@ -149,17 +233,15 @@ function ProductDetails() {
                       text={"white"}
                     />
                   </Link>
-                  <CgHeart
-                    size={"40px"}
-                    style={{
-                      background: "lightgray",
-                      borderRadius: "50%",
-                      padding: "8px",
-                    }}
-                  />
+
+                  {
+                   currentFavoriteProduct?.statusLike === true ? <IoIosHeart  size={'45px'} style={{color: 'red',cursor: 'pointer',background:'lightgray',padding:'5px',borderRadius:'50%'}} onClick={handleFavoriteClick }/> : <FaRegHeart  size={'45px'} style={{color: 'dark',cursor: 'pointer',background:'lightgray',padding:'6px',borderRadius:'50%'}} onClick={handleFavoriteClick}/>
+                  }
+        
+            
                 </div>
               </div>
-            </div>
+            </motion.div>
           </div>
         </>
       )}

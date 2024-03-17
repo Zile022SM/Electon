@@ -9,10 +9,26 @@ import { Link } from "react-router-dom";
 import NavBarCategoriesComponent from "./NavBarCategoriesComponent";
 import { useDispatch, useSelector } from 'react-redux';
 import { saveInCartHandler } from "../store/cartSlice";
+import { motion } from "framer-motion";
+import { useEffect,useState } from "react";
 
 function NavBarComponent() {
 
   const {totalProducts} = useSelector(state=>state.cartStore);
+  const {favoritesTotalProducts} = useSelector(state=>state.favoriteStore);
+  const [rotateFavNumber,setRotateNumber] = useState(0);
+  const [rotateCartNumber,setRotateCartNumber] = useState(0);
+
+  useEffect(()=>{
+    setRotateNumber((prev)=>prev+1);
+
+  },[favoritesTotalProducts]);
+
+  useEffect(()=>{
+    setRotateCartNumber((prev)=>prev+1);
+
+  },[totalProducts]);
+ 
 
   
   return (
@@ -48,18 +64,30 @@ function NavBarComponent() {
 
           <div className="flex gap-2 text-white items-center">
             <FaRegHeart color="orange" />
-            <Link to={"/"}>Favorite</Link>
-            <span className="h-[20px] w-[20px] bg-[orange] flex justify-center items-center rounded-full text-black">
-              0
-            </span>
+            <Link to={"/favorites"}>Favorite</Link>
+            <motion.div className="h-[20px] w-[20px] bg-[orange] flex justify-center items-center rounded-full text-black"
+                 key={rotateFavNumber} 
+                 initial={{ opacity: 0 }}
+                 animate={{ opacity: 1,rotate: 360 }}
+                 transition={{ duration: 1, loop: Infinity }}
+                 exit={{ opacity: 0 }}
+            >
+              { 0 || favoritesTotalProducts}
+            </motion.div>
           </div>
 
           <div className="flex gap-2 text-white items-center">
             <BsCart4 color="orange" />
             <Link to={"/cartProducts"}>Cart</Link>
-            <span className="h-[20px] w-[20px] bg-[orange] flex justify-center items-center rounded-full text-black">
+            <motion.div className="h-[20px] w-[20px] bg-[orange] flex justify-center items-center rounded-full text-black"
+               key={rotateCartNumber} 
+               initial={{ opacity: 0 }}
+               animate={{ opacity: 1,rotate: 360 }}
+               transition={{ duration: 1, loop: Infinity }}
+               exit={{ opacity: 0 }}
+            >
               {totalProducts}
-            </span>
+            </motion.div>
           </div>
         </div>
       
